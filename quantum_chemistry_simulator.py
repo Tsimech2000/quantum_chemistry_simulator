@@ -39,9 +39,9 @@ st.write("Perform molecular orbital calculations and spectral analysis.")
 # User input: Molecular geometry or CIF file conversion
 from pymatgen.core import Structure
 
-def convert_cif_to_xyz(file):
-    try:
-        structure = Structure.from_file(file)
+def convert_cif_to_xyz(uploaded_file):
+        try:
+                structure = Structure.from_str(uploaded_file.getvalue().decode(), fmt='cif')
         return structure.to(fmt="xyz")
     except Exception as e:
         st.error(f"Error converting CIF file: {e}")
