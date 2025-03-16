@@ -51,18 +51,21 @@ def smiles_to_xyz(smiles):
     AllChem.EmbedMolecule(mol, AllChem.ETKDG())
     AllChem.UFFOptimizeMolecule(mol)
     
-    conf = mol.GetConformer()
-    xyz_coords =  "join"
-    if"{mol.GetAtomWithIdx(i).GetSymbol()} {conf.GetAtomPosition(i).x} {conf.GetAtomPosition(i).y} {conf.GetAtomPosition(i).z}"
-        for i in range :mol.GetNumAtoms()
+            conf = mol.GetConformer()
+    xyz_coords = "
+".join(
+        f"{mol.GetAtomWithIdx(i).GetSymbol()} {conf.GetAtomPosition(i).x} {conf.GetAtomPosition(i).y} {conf.GetAtomPosition(i).z}"
+        for i in range(mol.GetNumAtoms())
+    )
     return xyz_coords
-    smiles_input = st.text_input("Enter SMILES String (Optional)")
-    if smiles_input:
-        mol_input = smiles_to_xyz(smiles_input)
+
+smiles_input = st.text_input("Enter SMILES String (Optional)")
+if smiles_input:
+    mol_input = smiles_to_xyz(smiles_input)
     st.text_area("Generated Molecular Geometry (XYZ Format)", mol_input, height=150)
 
-    if st.button("Compute Quantum Properties"):
-        energy, homo_energy, lumo_energy, ir_frequencies, ir_intensities = compute_quantum_properties(mol_input)
+if st.button("Compute Quantum Properties"):
+    energy, homo_energy, lumo_energy, ir_frequencies, ir_intensities = compute_quantum_properties(mol_input)
     
     if energy is not None:
         st.write(f"Total Energy: {energy:.6f} Hartree")
