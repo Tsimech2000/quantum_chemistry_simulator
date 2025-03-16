@@ -38,7 +38,6 @@ st.write("Perform molecular orbital calculations and spectral analysis.")
 
 # User input: Molecular geometry or CIF file conversion
 from pymatgen.core import Structure
-
 st.subheader("Upload CIF File")
 uploaded_file = st.file_uploader("Upload CIF File for Molecular Structure", type=["cif"])
 def convert_cif_to_xyz(uploaded_file):
