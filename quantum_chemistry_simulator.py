@@ -10,7 +10,6 @@ def compute_quantum_properties(mol_str):
     """Compute molecular orbitals and spectra using PySCF."""
     try:
         # Set up the molecule
-
         mol = gto.M(atom=mol_str, basis='6-31G')
         
 
@@ -39,11 +38,31 @@ def compute_quantum_properties(mol_str):
 st.title("Quantum Chemistry Simulator")
 st.write("Perform molecular orbital calculations and spectral analysis.")
 
-# User input: Molecular geometry
+# User input: Molecular geometry or SMILES-to-XYZ conversion
 mol_input = st.text_area("Enter Molecular Geometry (PySCF Format)", """
 H 0.0 0.0 0.0
 H 0.0 0.0 0.74
 """)
+
+# SMILES input and conversion
+def smiles_to_xyz(smiles):
+    mol = Chem.MolFromSmiles(smiles)
+    mol = Chem.AddHs(mol)
+    AllChem.EmbedMolecule(mol, AllChem.ETKDG())
+    AllChem.UFFOptimizeMolecule(mol)
+    
+    conf = mol.GetConformer()
+        xyz_coords = "
+".join(
+        f"{mol.GetAtomWithIdx(i).GetSymbol()} {conf.GetAtomPosition(i).x} {conf.GetAtomPosition(i).y} {conf.GetAtomPosition(i).z}"
+        for i in range(mol.GetNumAtoms())
+    )
+    return xyz_coords
+
+smiles_input = st.text_input("Enter SMILES String (Optional)")
+if smiles_input:
+    mol_input = smiles_to_xyz(smiles_input)
+    st.text_area("Generated Molecular Geometry (XYZ Format)", mol_input, height=150)
 
 if st.button("Compute Quantum Properties"):
     energy, homo_energy, lumo_energy, ir_frequencies, ir_intensities = compute_quantum_properties(mol_input)
@@ -61,3 +80,4 @@ if st.button("Compute Quantum Properties"):
         ax.set_title("IR Spectrum")
         ax.legend()
         st.pyplot(fig)
+
