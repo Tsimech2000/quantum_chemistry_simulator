@@ -1,6 +1,8 @@
 import streamlit as st
 from pyscf import gto, scf
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')  # Use a non-GUI backend for Streamlit compatibility
 import matplotlib.pyplot as plt
 
 def compute_quantum_properties(mol_str):
@@ -34,8 +36,26 @@ def compute_quantum_properties(mol_str):
 st.title("Quantum Chemistry Simulator")
 st.write("Perform molecular orbital calculations and spectral analysis.")
 
-# User input: Molecular geometry
-mol_input = st.text_area("Enter Molecular Geometry (PySCF Format)", """
+# User input: Molecular geometry or CIF file conversion
+from pymatgen.core import Structure
+
+def convert_cif_to_xyz(file):
+    try:
+        structure = Structure.from_file(file)
+        return structure.to(fmt="xyz")
+    except Exception as e:
+        st.error(f"Error converting CIF file: {e}")
+        return None
+
+uploaded_file = st.file_uploader("Upload CIF File for Molecular Structure", type=["cif"])
+if uploaded_file is not None:
+    mol_input = convert_cif_to_xyz(uploaded_file)
+    if mol_input:
+        st.text_area("Generated Molecular Geometry (XYZ Format)", mol_input, height=150)
+    else:
+        st.error("Could not process the CIF file. Please try another file.")
+else:
+    mol_input = st.text_area("Enter Molecular Geometry (PySCF Format)", """
 H 0.0 0.0 0.0
 H 0.0 0.0 0.74
 """)
