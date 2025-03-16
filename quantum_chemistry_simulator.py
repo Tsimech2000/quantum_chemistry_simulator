@@ -52,7 +52,7 @@ def smiles_to_xyz(smiles):
     AllChem.UFFOptimizeMolecule(mol)
     
     conf = mol.GetConformer()
-        xyz_coords = "
+            xyz_coords = "
 ".join(
         f"{mol.GetAtomWithIdx(i).GetSymbol()} {conf.GetAtomPosition(i).x} {conf.GetAtomPosition(i).y} {conf.GetAtomPosition(i).z}"
         for i in range(mol.GetNumAtoms())
@@ -80,4 +80,3 @@ if st.button("Compute Quantum Properties"):
         ax.set_title("IR Spectrum")
         ax.legend()
         st.pyplot(fig)
-
