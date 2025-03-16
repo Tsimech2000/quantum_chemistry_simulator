@@ -37,12 +37,10 @@ st.title("Quantum Chemistry Simulator")
 st.write("Perform molecular orbital calculations and spectral analysis.")
 
 # User input: Molecular geometry or CIF file conversion
-import streamlit as st
 from pymatgen.core import Structure
 
 st.subheader("Upload CIF File")
 uploaded_file = st.file_uploader("Upload CIF File for Molecular Structure", type=["cif"])
-
 def convert_cif_to_xyz(uploaded_file):
     try:
         structure = Structure.from_str(uploaded_file.getvalue().decode(), fmt='cif')
@@ -51,15 +49,14 @@ def convert_cif_to_xyz(uploaded_file):
         st.error(f"Error converting CIF file: {e}")
         return None
 
-uploaded_file = st.file_uploader("Upload CIF File for Molecular Structure", type=["cif"])
-if uploaded_file is not None:
-    mol_input = convert_cif_to_xyz(uploaded_file)
-    if mol_input:
+uploaded_file = st.file_uploader("Upload CIF File for Molecular Structure", type=["cif"])if uploaded_file is not None:
+mol_input = convert_cif_to_xyz(uploaded_file)
+if mol_input:
         st.text_area("Generated Molecular Geometry (XYZ Format)", mol_input, height=150)
-    else:
+else:
         st.error("Could not process the CIF file. Please try another file.")
 else:
-    mol_input = st.text_area("Enter Molecular Geometry (PySCF Format)", """
+mol_input = st.text_area("Enter Molecular Geometry (PySCF Format)", """
 H 0.0 0.0 0.0
 H 0.0 0.0 0.74
 """)
