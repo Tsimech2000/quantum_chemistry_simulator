@@ -44,9 +44,7 @@ st.subheader("Upload CIF File")
 uploaded_file = st.file_uploader("Upload CIF File for Molecular Structure", type=["cif"])
 
 def convert_cif_to_xyz(uploaded_file):
-    try:
-                        structure = Structure.from_str(uploaded_file.getvalue().decode(), fmt='cif')
-        return structure.to(fmt="xyz")
+    try:        structure = Structure.from_str(uploaded_file.getvalue().decode(), fmt='cif')        return structure.to(fmt="xyz")
     except Exception as e:
         st.error(f"Error converting CIF file: {e}")
         return None
