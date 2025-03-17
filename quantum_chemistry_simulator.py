@@ -29,8 +29,7 @@ def compute_quantum_properties(mol_str):
         # Compute correct Hessian matrix
         hessian = rhf.Hessian(mf).kernel()
         
-        # Compute mass-weighted Hessian
-                masses = np.repeat(mol.atom_mass_list(), 3)  # Expand to match 3N x 3N Hessian
+        # Compute mass-weighted Hessian        masses = np.repeat(mol.atom_mass_list(), 3)  # Expand to match 3N x 3N Hessian
         mass_weighted_hessian = hessian / np.sqrt(np.outer(masses, masses))
         
         # Extract vibrational frequencies
@@ -73,5 +72,4 @@ if st.button("Compute Quantum Properties"):
         ax.set_title("IR Spectrum")
         ax.legend()
         st.pyplot(fig)
-
 
