@@ -30,7 +30,8 @@ def compute_quantum_properties(mol_str):
         hessian = rhf.Hessian(mf).kernel()
         
         # Compute mass-weighted Hessian
-        masses = np.repeat(mol.atom_mass_list(), 3)  # Expand to match 3N x 3N Hessian
+                masses = np.tile(mol.atom_mass_list(), 3)  # Expand to 3N size  # Expand to match 3N x 3N Hessian
+                hessian = hessian.reshape(3 * len(mol.atom_coords()), 3 * len(mol.atom_coords()))  # Ensure Hessian is (3N, 3N)
         mass_weighted_hessian = hessian / np.sqrt(np.outer(masses, masses))
         
         # Extract vibrational frequencies
