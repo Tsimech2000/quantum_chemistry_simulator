@@ -75,6 +75,7 @@ if st.button("Compute Quantum Properties"):
         fig, ax = plt.subplots()
         ax.plot(ir_frequencies, ir_intensities, label='Simulated IR Spectrum')
         ax.set_xlabel("Wavenumber (cm^-1)")
+        ax.set_xlim(0, 4000)  # Restrict wavenumber range to lower values
         ax.set_ylabel("Intensity")
         ax.set_title("IR Spectrum")
         ax.legend()
