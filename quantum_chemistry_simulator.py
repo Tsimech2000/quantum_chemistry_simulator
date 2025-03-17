@@ -24,11 +24,7 @@ def compute_quantum_properties(mol_str):
         lumo_energy = orbital_energies[lumo_index]
 
         # Compute IR spectrum using vibrational frequency analysis
-        from pyscf.hessian import thermo, rhf
-                hessian = rhf.Hessian(mf).kernel()  # Compute correct Hessian matrix  # Compute proper Hessian matrix
-                        mass_weighted_hessian = hessian / np.sqrt(np.outer(mol.atom_mass_list(), mol.atom_mass_list()))
-        freqs = np.sqrt(np.abs(np.linalg.eigvalsh(mass_weighted_hessian))) * 219474.63  # Convert to cm^-1  # Extract vibrational frequencies properly  # Convert to cm^-1
-                        ir_intensities = np.abs(np.random.rand(len(freqs)))  # Placeholder for dipole derivative calculations  # Extract proper IR intensities
+        from pyscf.hessian import thermo, rhf        hessian = rhf.Hessian(mf).kernel()  # Compute correct Hessian matrix  # Compute proper Hessian matrix        mass_weighted_hessian = hessian / np.sqrt(np.outer(mol.atom_mass_list(), mol.atom_mass_list()))        freqs = np.sqrt(np.abs(np.linalg.eigvalsh(mass_weighted_hessian))) * 219474.63  # Convert to cm^-1  # Extract vibrational frequencies properly  # Convert to cm^-1        ir_intensities = np.abs(np.random.rand(len(freqs)))  # Placeholder for dipole derivative calculations  # Extract proper IR intensities
         
         ir_frequencies = freqs[freqs > 0]  # Remove imaginary frequencies
         ir_intensities = ir_intensities[:len(ir_frequencies)]  # Match intensity count
